@@ -6,19 +6,6 @@
 
 local M = {}
 
-local function validate_hilight_args(args)
-    if 'string' == type(args) then
-        return true
-    end
-
-    if 'table' ~= type(args) then
-        return 'args must either be a string or a table'
-    end
-
-    return nil ~= (args.guifg or args.guibg or args.gui or args.guisp),
-        'args must contains at least one of: guifg, guibg, gui, guisp'
-end
-
 -- This is a bit of syntactic sugar for creating highlight groups.
 --
 -- local colorscheme = require('colorscheme')
@@ -32,11 +19,6 @@ end
 -- hi! link LspDiagnosticsDefaultError DiagnosticError
 M.highlight = setmetatable({}, {
     __newindex = function(_, hlgroup, args)
-        vim.validate {
-            hlgroup = { hlgroup, 'string' },
-            args = { args, validate_hilight_args, 'string or table' },
-        }
-
         if ('string' == type(args)) then
             vim.cmd(('hi! link %s %s'):format(hlgroup, args))
             return
