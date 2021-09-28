@@ -8,8 +8,6 @@ local M = {}
 
 -- This is a bit of syntactic sugar for creating highlight groups.
 --
--- local colorscheme = require('colorscheme')
--- local hi = colorscheme.highlight
 -- hi.Comment = { guifg='#ffffff', guibg='#000000', gui='italic', guisp=nil }
 -- hi.LspDiagnosticsDefaultError = 'DiagnosticError' -- Link to another group
 --
@@ -17,7 +15,7 @@ local M = {}
 --
 -- hi Comment guifg=#ffffff guibg=#000000 gui=italic
 -- hi! link LspDiagnosticsDefaultError DiagnosticError
-M.highlight = setmetatable({}, {
+local hi = setmetatable({}, {
     __newindex = function(_, hlgroup, args)
         if ('string' == type(args)) then
             vim.cmd(('hi! link %s %s'):format(hlgroup, args))
@@ -63,8 +61,6 @@ function M.setup(colors)
     vim.cmd('set termguicolors')
 
     M.colors = colors or M.colorschemes[vim.env.BASE16_THEME] or M.colorschemes['schemer-dark']
-
-    local hi = M.highlight
 
     -- Vim editor colors
     hi.Normal       = { guifg = M.colors.base05, guibg = M.colors.base00, gui = nil,    guisp = nil }
